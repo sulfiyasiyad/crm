@@ -1,16 +1,111 @@
 {% extends 'hnav.html' %}
 {% block content %}
 {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 <style>
     body{
-        background-image:url('/static/images/img1.jpg') ;
-        background-repeat: no-repeat;
-        background-size: cover;
+        background-color: rgb(165, 218, 243);
     }
+    .rounded-container {
+        border-radius: 15px;
+        background-color: #f8f9fa; /* Add your desired background color */
+        padding: 20px; /* Add padding as needed */
+    }
+
+    icon {
+        font-size: 48px;
+        margin: 20px;
+    }
+    .full-screen-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 30%;
+    }
+    .rounded-image {
+        border-radius: 50%; /* Makes the image rounded */
+        max-width: 150px; /* Ensures the image doesn't exceed its container */
+        height: auto; /* Maintains the aspect ratio */
+        margin: 0 10px; /* Adjust margin for spacing between images */
+    }
+
+
 </style>
+
 <body>
-    <h1>Home page</h1>
+    <h1 style="text-align: center; margin-top: 90px;">Sales teams from good to great</h1>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <p class="paragraph">Odoo CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</p>
+          </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <button type="button" class="btn btn-primary">Show now it's free</button>
+            <button type="button" class="btn btn-success">Schedule a demo</button>
+          </div>
+        </div>
+    </div>
+    <img src="{% static 'images/crm2.avif' %}" class="img-fluid" alt="Responsive image" style="width: 200%; margin-top: 30px; height: 400px;">
     
+    <div class="container mt-5 rounded" style="background-color: rgb(106, 176, 203);">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <h1 style="text-align: center;">All features done wright</h1>
+            <div class="custom-container">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="rounded p-3 bg-white rounded-container">
+                    <!-- Content for first rounded container -->
+                    <h3>Manage Leads</h3>
+                    <p>This is the content of container 1.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="rounded p-3 bg-white rounded-container">
+                    <!-- Content for second rounded container -->
+                    <h3>AI leading Entry</h3>
+                    <p>This is the content of container 2.</p>
+                  </div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="rounded p-3 bg-white rounded-container">
+                    <!-- Content for first rounded container -->
+                    <h3>Container 1</h3>
+                    <p>This is the content of container 1.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="rounded p-3 bg-white rounded-container">
+                      <!-- Content for second rounded container -->
+                      <h3>Reduce Manuel Entry</h3>
+                      <p>This is the content of container 2.</p>
+                    </div>
+                  </div>
+              <!-- Additional rows and columns for more containers can be added here -->
+            </div>
+          </div>
+        </div>
+      </div>
+     <div class="container">
+        <h1 style="text-align: center;">Integrate with:</h1>
+     </div>
+     <div class="container-fluid full-screen-container">
+        <img src="{% static 'images/phone.jpg' %}" alt="Image 1" class="rounded-image">
+        <img src="https://via.placeholder.com/150" alt="Image 2" class="rounded-image">
+        <img src="https://via.placeholder.com/150" alt="Image 3" class="rounded-image">
+      </div>
+
 </body>
 </html>
 {% endblock %}
