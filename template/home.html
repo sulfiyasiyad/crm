@@ -1,111 +1,268 @@
+
 {% extends 'hnav.html' %}
-{% block content %}
 {% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
 </head>
 <style>
-    body{
-        background-color: rgb(165, 218, 243);
-    }
-    .rounded-container {
-        border-radius: 15px;
-        background-color: #f8f9fa; /* Add your desired background color */
-        padding: 20px; /* Add padding as needed */
-    }
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  body{
+    font-family: sans-serif;
 
-    icon {
-        font-size: 48px;
-        margin: 20px;
-    }
-    .full-screen-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 30%;
-    }
-    .rounded-image {
-        border-radius: 50%; /* Makes the image rounded */
-        max-width: 150px; /* Ensures the image doesn't exceed its container */
-        height: auto; /* Maintains the aspect ratio */
-        margin: 0 10px; /* Adjust margin for spacing between images */
-    }
+  }
+  #banner{
+    background-image: linear-gradient(to right, #a9dddb,#90c7ec);
+    padding-top: 5%;
+  }
+  .promo-title{
+    font-size: 40px;
+    font-weight: 600;
+    margin-top: 100px;
+
+  }
+  .play-btn{
+    width: 45px;
+    margin: 20px;
+
+  }
+  #banner a{
+    color: #fff;
+    text-decoration: none;
+  }
+  .bottom-img{
+    width: 100%;
+  }
+  #services{
+    padding: 80px 0;
+  }
+  .service-img{
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+  }
+  .services{
+    padding: 20px;
+  }
+  .services h4{
+    padding: 5px;
+    margin-top: 25px;
+    text-transform: uppercase;
+  }
+  .title::before{
+    content: '';
+    background: #179894;
+    height: 5px;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    transform: translateY(63px);
+
+  }
+  #features{
+    background: #f8f9fa;
+    padding-bottom: 50px;
+    padding-top: 50px;
 
 
-</style>
+  }
+  #main{
+    background: #179894;
+    padding-bottom: 50px;
+    margin-top: 50px;
+  
+  }
+  .feature-img{
+    width: 100px;
 
-<body>
-    <h1 style="text-align: center; margin-top: 90px;">Sales teams from good to great</h1>
-    <div class="container">
-        <div class="row">
-          <div class="col">
-            <p class="paragraph">Odoo CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</p>
-          </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-auto">
-            <button type="button" class="btn btn-primary">Show now it's free</button>
-            <button type="button" class="btn btn-success">Schedule a demo</button>
-          </div>
-        </div>
-    </div>
-    <img src="{% static 'images/crm2.avif' %}" class="img-fluid" alt="Responsive image" style="width: 200%; margin-top: 30px; height: 400px;">
+  }
+  .feature-title{
+    font-size: 40px;
+    font-weight: 600;
+    margin-top: 8%;
+  }
+  #feature-us ul li {
+    margin: 10px 0;
+
+
+  }
+  #feature-us ul{
+    margin-left: 20px;
+  }
+  .testimonials{
+    border-left: 4px solid #7b1798;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+  }
+  .testimonials img{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    margin: 0 10px;
+  }
+  .user-details{
+    display: inline block;
+    font-size: 12px;
+  }
+  #social-media p{
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  .social-icons img{
+    width: 60px;
+    transition: 0.05s;
+
     
-    <div class="container mt-5 rounded" style="background-color: rgb(106, 176, 203);">
-        <div class="row justify-content-center">
-          <div class="col-md-8">
-            <h1 style="text-align: center;">All features done wright</h1>
-            <div class="custom-container">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <div class="rounded p-3 bg-white rounded-container">
-                    <!-- Content for first rounded container -->
-                    <h3>Manage Leads</h3>
-                    <p>This is the content of container 1.</p>
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <div class="rounded p-3 bg-white rounded-container">
-                    <!-- Content for second rounded container -->
-                    <h3>AI leading Entry</h3>
-                    <p>This is the content of container 2.</p>
-                  </div>
-                </div>
-            </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                  <div class="rounded p-3 bg-white rounded-container">
-                    <!-- Content for first rounded container -->
-                    <h3>Container 1</h3>
-                    <p>This is the content of container 1.</p>
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="rounded p-3 bg-white rounded-container">
-                      <!-- Content for second rounded container -->
-                      <h3>Reduce Manuel Entry</h3>
-                      <p>This is the content of container 2.</p>
-                    </div>
-                  </div>
-              <!-- Additional rows and columns for more containers can be added here -->
-            </div>
-          </div>
+  }
+
+
+  
+</style>
+<body>
+  <section id="banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="promo-title">SALES TEAM FROM GOOD TO GREATE</p>
+          <P>Odoo CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</P>
+          <a href="#" ><img src="{% static 'images/play.png' %}" class="play-btn">Watch for more information</a>
+
         </div>
+        <div class="col-md-6 text-center">
+          <img src="{% static 'images/network.png' %}" class="img-fluid">
+        </div>
+
       </div>
-     <div class="container">
-        <h1 style="text-align: center;">Integrate with:</h1>
-     </div>
-     <div class="container-fluid full-screen-container">
-        <img src="{% static 'images/phone.jpg' %}" alt="Image 1" class="rounded-image">
-        <img src="https://via.placeholder.com/150" alt="Image 2" class="rounded-image">
-        <img src="https://via.placeholder.com/150" alt="Image 3" class="rounded-image">
+    </div>
+    <img src="{% static 'images/wave1.png' %}" class="bottom-img">
+
+  </section>
+  <section id="services">
+    <div class="container text-center">
+      <h1 class="title">Services</h1>
+      <div class="row text-center">
+        <div class="col col-md-4 services">
+          <img src="{% static 'images/services.jpg' %}" class="service-img">
+          <h4>Buisness Analysis</h4>
+          <p>CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</p>
+
+
+        </div>
+        <div class="col col-md-4 services">
+          <img src="{% static 'images/marketing.webp' %}" class="service-img">
+          <h4> Marketing Strategies</h4>
+          <p>CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</p>
+
+
+        </div>
+        <div class="col col-md-4 services">
+          <img src="{% static 'images/services.jpg' %}" class="service-img">
+          <h4>Customer Services</h4>
+          <p>CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</p>
+
+
+        </div>
+
+      </div>
+      <div>
+
+      </div>
+    </div>
+  </section>
+  <section id="features">
+    <div class="container">
+      <h1 class="title text-center">All the features </h1>
+      <div class="row">
+        <div class="col-md-6 feature-us">
+          <p class="feature-title">Fretures we have</p>
+          <ul>
+            <li>Automate lead creation, team assignment, scheduled activities, and focus on what really matters.</li>
+            <li>Automate lead creation, team assignment, scheduled activities, and focus on what really matters.</li>
+            <li>Reduce manual entry Send quotes in just a few clicks, manage your pipeline by drag-and-dropping, and more.</li>
+            <li>Manage leads Create, acquire, import, nurture, score, etc. Manage all aspects of your leads in a single place.</li>
+          </ul>
+
+
+        </div>
+        <div class="col-md-6">
+          <img src="{% static 'images/home2.png' %}" class="img-fluid">
+
+        </div>
+
       </div>
 
+
+      
+      
+      
+    </div>
+
+
+    </div>
+
+  </section>
+  <section id="testimonials">
+    <div class="container">
+      <h1 class="title text-center">Client Say's</h1>
+      <div class="row">
+        <div class="col-md-5 testimonials">
+          <p>CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</p>
+          <img src="{% static 'images/user.png' %}">
+          <p class="user-details"><b>Mary</b><br>founder at abc</br></p>
+        </div>
+        <div class="col-md-5 testimonials">
+          <p>CRM is the true customer-centric tool for your sales needs. Track leads, get accurate forecasts, and focus on what matters: closing opportunities.</p>
+          <img src="{% static 'images/user.png' %}">
+          <p class="user-details"><b>Ashish</b><br>founder at ply</br></p>
+        </div>
+
+
+      </div>
+      
+       
+
+      
+
+    </div>
+  </section>
+  <section class="social-media">
+
+  
+  <div class="container text-center">
+    <p>Find on social media</p>
+    <div class="social-icons">
+      <a href=""><img src="{% static 'images/whatsapp-icon.png' %}"></a>
+      <a href=""><img src="{% static 'images/facebook-icon.png' %}"></a>
+      <a href=""><img src="{% static 'images/twitter-icon.png' %}"></a>
+    </div>
+
+  </div>
+  </section>
+  <footer class="bg-body-tertiary text-center">
+    <!-- Grid container -->
+    <div class="container p-4"></div>
+    <!-- Grid container -->
+  
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2020 Copyright:
+      <a class="text-body" href="https://mdbootstrap.com/">crm.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+   
+   
 </body>
 </html>
 {% endblock %}
