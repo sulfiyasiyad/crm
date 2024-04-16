@@ -1,0 +1,239 @@
+{% extends 'sidenav.html' %}
+{% load static %}
+{% block content %}
+<!-- <style>
+    .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.card {
+    width: calc(33.33% - 20px);
+    margin: 10px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        width: calc(100% - 20px);
+    }
+}
+</style>
+<div class="content">
+    <h1>Card List</h1>
+    <div class="card-container">
+        {% for card in a %}
+        <div class="card">
+            <h2>{{ card.name }}</h2>
+           
+        </div>
+        {% endfor %}
+    </div>
+</div> -->
+
+<!-- <div id="card-container">
+    {% for card in a %}
+    <div class="card" draggable="true">
+        <h2>{{ card.name }}</h2>
+        
+    </div>
+    {% endfor %}
+</div>
+<style>
+    /* styles.css */
+
+#card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.card p {
+    margin: 0;
+}
+
+</style>
+<script>
+    // scripts.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        card.addEventListener('dragstart', dragStart);
+        card.addEventListener('dragend', dragEnd);
+    });
+
+    function dragStart() {
+        this.classList.add('dragging');
+    }
+
+    function dragEnd() {
+        this.classList.remove('dragging');
+    }
+});
+
+</script> -->
+<div class="content">
+    <div id="card-container">
+        {% for card in a %}
+        <div class="card" draggable="true">
+            
+            <h2>{{ card.name }}</h2>
+            <p>{{ card.description }}</p>
+        </div>
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span id="popup-close" class="close-popup">&times;</span>
+                <h2 id="popup-title"></h2>
+                <p id="popup-description"></p>
+                <a href="{% url 'Archeive' card.id  %}">
+                    <button  id="popup-save">Archeive</button></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style>
+    #card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.card p {
+    margin: 0;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content {
+    text-align: center;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.popup-save {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-save:hover {
+    background-color: #0056b3;
+}
+</style>
+<script>
+    // scripts.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card');
+    const popup = document.getElementById('popup');
+    const popupClose = document.getElementById('popup-close');
+    const popupTitle = document.getElementById('popup-title');
+    const popupDescription = document.getElementById('popup-description');
+    const popupSave = document.getElementById('popup-save');
+
+    cards.forEach(card => {
+        card.addEventListener('dragstart', dragStart);
+        card.addEventListener('dragend', dragEnd);
+        card.addEventListener('click', openPopup);
+    });
+
+    popupClose.addEventListener('click', closePopup);
+    popupSave.addEventListener('click', saveCard);
+
+    function dragStart() {
+        this.classList.add('dragging');
+    }
+
+    function dragEnd() {
+        this.classList.remove('dragging');
+    }
+
+    function openPopup() {
+        popupTitle.textContent = this.querySelector('h2').textContent;
+        popupDescription.textContent = this.querySelector('p').textContent;
+        popup.style.display = 'block';
+    }
+
+    function closePopup() {
+        popup.style.display = 'none';
+    }
+
+    function saveCard() {
+        // You can perform AJAX request to save the selected card
+        closePopup();
+    }
+});
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+{% endblock %}

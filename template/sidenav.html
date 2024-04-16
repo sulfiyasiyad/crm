@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Responsive Sidebar Navigation</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
   <style>
     /* Custom CSS for the sidebar */
     .sidebar {
@@ -79,10 +83,10 @@
           <a class="nav-link" href="#">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Add card</a>
+          <a class="nav-link" href="{% url 'add_card' %}">Add card</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">View cards</a>
+          <a class="nav-link" href="{% url 'view_card' %}">View cards</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Logout</a>
