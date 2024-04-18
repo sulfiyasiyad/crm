@@ -1,0 +1,115 @@
+{% extends 'v2admin.html' %}
+{% load static %}
+{% block content %}
+
+ <div class="container">
+ 
+  <div id="popup" class="popup" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h2>Popup Folder</h2>
+  </div>
+ 
+  <div id="cards" class="row">
+    
+  </div>
+</div>
+<script>
+  let draggedCard = null;
+
+
+function drag(event) {
+  draggedCard = event.target;
+  const popup = document.getElementById("popup");
+  popup.style.display = "block"; 
+}
+
+
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+
+function drop(event) {
+  event.preventDefault();
+  const popup = document.getElementById("popup");
+  const cardsContainer = document.getElementById("cards");
+
+  
+  const archivedCard = draggedCard.cloneNode(true);
+  archivedCard.classList.add("archived");
+ 
+  archiveCard(draggedCard.id);
+
+  draggedCard.parentNode.removeChild(draggedCard);
+
+ 
+  popup.style.display = "none";
+}
+
+
+function archiveCard(cardId) {
+  let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  archivedCards.push(cardId);
+  localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+}
+
+
+function loadCards() {
+  const cardsContainer = document.getElementById("cards");
+  const allCards = [
+    { id: "card1", text: "Card 1" },
+    { id: "card2", text: "Card 2" },
+    { id: "card3", text: "Card 3" },
+    { id: "card4", text: "Card 4" },
+    { id: "card5", text: "Card 5" },
+    
+  ];
+
+  
+  const archivedCardIds = JSON.parse(localStorage.getItem("archivedCards")) || [];
+
+  
+  const nonArchivedCards = allCards.filter(card => !archivedCardIds.includes(card.id));
+
+  
+  nonArchivedCards.forEach(cardData => {
+    const card = document.createElement("div");
+    card.textContent = cardData.text;
+    card.classList.add("card");
+    card.setAttribute("id", cardData.id);
+    card.setAttribute("draggable", true);
+    card.setAttribute("ondragstart", "drag(event)");
+    cardsContainer.appendChild(card);
+  });
+}
+
+
+document.addEventListener("DOMContentLoaded", loadCards);
+
+</script> 
+<style>
+  .card {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed #ccc;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.archived {
+  display: none; 
+}
+
+</style>
+
+</body>
+</html>
+{% endblock %}

@@ -24,3 +24,5 @@ def Archeive(request,pk):
     a.status=1
     a.save()
     return redirect('view_card')
+def view_Archeive(request):
+    return render(request,'view_archeive.html')

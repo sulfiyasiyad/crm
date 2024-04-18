@@ -1,100 +1,205 @@
-{% extends 'sidenav.html' %}
+<!-- {% extends 'v2admin.html' %}
 {% load static %}
 {% block content %}
-<style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: rgb(190, 166, 212);
-      margin-top: 100px;
-      height: 60%;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-    }
-    form {
-      margin-top: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-    }
-    input[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #e276aeed ;
-      color: white;
-      border: none;
-     
-      cursor: pointer;
-    
-  
-    }
-    input[type="submit"]:hover {
-      background-color: #a1e2a4;
-    }
-  </style>
-  <div class="container">
-    <h2 style="text-align: center;">Add Card</h2>
-    {% if messages %}
-    <div class="messages">
-      {% for message in messages %}
-      <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
-        {{ message }}
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-    
-    <form action="{% url 'add_card1' %}" method="post">
-      {% csrf_token %}
-      <label for="cardName">Card Name:</label>
-      <input type="text" id="cardName" name="name" placeholder="Enter card name" required>
+
+ <style>
+  .card {
+  margin-bottom: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  min-width: 150px;
+  height: 100px; 
+  margin-left: 70px;
       
-      <input type="submit" value="Add Card">
-    </form>
+
+  
+
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed #ccc;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.archived {
+  display: none; 
+}
+
+</style>
+<script>
+  let draggedCard = null;
+
+
+function drag(event) {
+  draggedCard = event.target;
+  const popup = document.getElementById("popup");
+  popup.style.display = "block"; 
+}
+
+
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+
+function drop(event) {
+  event.preventDefault();
+  const popup = document.getElementById("popup");
+  const cardsContainer = document.getElementById("cards");
+
+  
+  const archivedCard = draggedCard.cloneNode(true);
+  archivedCard.classList.add("archived");
+ 
+  archiveCard(draggedCard.id);
+
+  draggedCard.parentNode.removeChild(draggedCard);
+
+ 
+  popup.style.display = "none";
+}
+
+
+function archiveCard(cardId) {
+  let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  archivedCards.push(cardId);
+  localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+}
+
+
+function loadCards() {
+  const cardsContainer = document.getElementById("cards");
+  const allCards = [
+    { id: "card1", text: "Card 1" },
+    { id: "card2", text: "Card 2" },
+    { id: "card3", text: "Card 3" },
+    { id: "card4", text: "Card 4" },
+    { id: "card5", text: "Card 5" },
+    
+  ];
+
+  
+  const archivedCardIds = JSON.parse(localStorage.getItem("archivedCards")) || [];
+
+  
+  const nonArchivedCards = allCards.filter(card => !archivedCardIds.includes(card.id));
+
+  
+  nonArchivedCards.forEach(cardData => {
+    const card = document.createElement("div");
+    card.textContent = cardData.text;
+    card.classList.add("card");
+    card.setAttribute("id", cardData.id);
+    card.setAttribute("draggable", true);
+    card.setAttribute("ondragstart", "drag(event)");
+    cardsContainer.appendChild(card);
+  });
+}
+
+
+document.addEventListener("DOMContentLoaded", loadCards);
+</script>
+<div class="col main pt-5 mt-5">
+  <h1 class="display-4 d-none d-sm-block text black" style="text-align: center;">Welcome Admin</h1>
+  <div class="row placeholders mb-3">
+      <div class="col-xl-3 col-sm-6 py-2">
+          <div class="card1 bg-success text-white h-100">
+              <div class="card-body" style="background-color: rgb(159, 222, 159);">
+                  <div class="rotate">
+                      <i class="fa fa-user fa-4x"></i>
+                  </div>
+                  <h6 class="text-uppercase">Tweets</h6>
+                  <h1 class="display-4">121</h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 py-2">
+          <div class="card1 text-white bg-danger h-100">
+              <div class="card-body " style="background-color: rgb(230, 140, 140);">
+                  <div class="rotate">
+                      <i class="fa fa-list fa-4x"></i>
+                  </div>
+                  <h6 class="text-uppercase">Tweets</h6>
+                  <h1 class="display-4">121</h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 py-2">
+          <div class="card1 text-white bg-info h-100">
+              <div class="card-body" style="background-color: rgb(236, 157, 148);">
+                  <div class="rotate">
+                      <i class="fa fa-twitter fa-4x"></i>
+                  </div>
+                  <h6 class="text-uppercase">Tweets</h6>
+                  <h1 class="display-4">122</h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 py-2">
+        <div class="card1 text-white bg-info h-100">
+            <div class="card-body " style="background-color: pink;">
+                <div class="rotate">
+                    <i class="fa fa-twitter fa-4x"></i>
+                </div>
+                <h6 class="text-uppercase">Tweets</h6>
+                <h1 class="display-4">124</h1>
+            </div>
+        </div>
+    </div> 
+  </div>
+  <div class="container">
+    <h1 style="text-align: center;">Cards</h1>
+
+ 
+    <div id="popup" class="popup" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Popup Folder</h2>
+    </div>
+   
+    <div id="cards" class="row">
+      
+    </div>
+  <div class="row placeholders mb-3">
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="//placehold.it/200/dddddd/fff?text=1" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>Responsive</h4>
+        <span class="text-muted">Device agnostic</span>
+    </div>
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="//placehold.it/200/e4e4e4/fff?text=2" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>Frontend</h4>
+        <span class="text-muted">UI / UX oriented</span>
+    </div>
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="//placehold.it/200/d6d6d6/fff?text=3" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>HTML5</h4>
+        <span class="text-muted">Standards-based</span>
+    </div>
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="//placehold.it/200/e0e0e0/fff?text=4" class="center-block img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>Framework</h4>
+        <span class="text-muted">CSS and JavaScript</span>
+    </div>
   </div>
   
-  <!-- JavaScript (you may include your own for form submission handling) -->
-  <script>
-    document.getElementById("cardForm").addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent default form submission
-  
-      // Get the category name and description from the form
-      var cardName = document.getElementById("cardName").value;
+  </div>
   
   
-      // Perform your logic for adding the category, e.g., send an AJAX request to the server
-      // Here, I'm just logging the category name and description to the console as an example
-      console.log("New category name:", cardName);
-     
+ 
   
-      // You can then proceed to handle the category addition, such as sending data to a backend server
-      // However, for this basic example, I'm not including that part
-      
-      // Clear the form after submission
-      document.getElementById("categoryForm").reset();
-    });
-  </script>
-
+  </div>
+  {% endblock %}
    
 
 
 
-{% endblock %}
+
+  
+
+
+ -->

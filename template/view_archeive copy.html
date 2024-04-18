@@ -1,0 +1,87 @@
+{% extends 'v2admin.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archived Cards</title>
+
+<body>
+  <style>
+    .card {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed #ccc;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.archived {
+  display: none; /* Hide archived cards */
+}
+
+  </style>
+  <body>
+    <main role="main" class="col-md-10 col-lg-9 ml-sm-auto col-xl-9 px-4">
+    <div class="main-content">
+    <div class="container">
+      <h2>Archived Cards</h2>
+      <ul id="archived-cards"></ul>
+      <button onclick="unarchiveCards()">Unarchive Cards</button>
+    </div>
+    </div>
+    </main>
+    <script>
+      // Function to display archived cards
+function displayArchivedCards() {
+  const archivedCardsContainer = document.getElementById("archived-cards");
+  const archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  archivedCards.forEach(cardText => {
+    // Create card element
+    const cardItem = document.createElement("div");
+    cardItem.classList.add("card");
+    // Create card text
+    const cardTextElement = document.createElement("p");
+    cardTextElement.textContent = cardText;
+    cardItem.appendChild(cardTextElement);
+    // Create unarchive button
+    const unarchiveButton = document.createElement("button");
+    unarchiveButton.textContent = "Unarchive";
+    unarchiveButton.addEventListener("click", function() {
+      unarchiveCard(cardText);
+      // Remove card from the DOM
+      cardItem.remove();
+    });
+    cardItem.appendChild(unarchiveButton);
+    archivedCardsContainer.appendChild(cardItem);
+  });
+}
+
+// Function to unarchive a card
+function unarchiveCard(cardText) {
+  let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  const index = archivedCards.indexOf(cardText);
+  if (index !== -1) {
+    archivedCards.splice(index, 1);
+    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+  }
+}
+
+// Call displayArchivedCards when the page is loaded
+document.addEventListener("DOMContentLoaded", displayArchivedCards);
+
+    </script>
+   
+
+{% endblock %}
