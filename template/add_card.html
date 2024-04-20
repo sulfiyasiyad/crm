@@ -1,8 +1,6 @@
-<!-- {% extends 'v2admin.html' %}
-{% load static %}
-{% block content %}
 
- <style>
+
+ <!-- <style>
   .card {
   margin-bottom: 10px;
   border: 1px solid black;
@@ -19,7 +17,7 @@
 .popup {
   display: none;
   position: fixed;
-  top: 90%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: 2px dashed #ccc;
@@ -106,8 +104,8 @@ function loadCards() {
 document.addEventListener("DOMContentLoaded", loadCards);
 </script>
 <div class="col main pt-5 mt-5">
-  <h1 class="display-4 d-none d-sm-block text black" style="text-align: center;">Welcome Admin</h1>
-  <div class="row placeholders mb-3">
+  <!-- <h1 class="display-4 d-none d-sm-block text black" style="text-align: center;">Welcome Admin</h1> -->
+  <!-- <div class="row placeholders mb-3">
       <div class="col-xl-3 col-sm-6 py-2">
           <div class="card1 bg-success text-white h-100">
               <div class="card-body" style="background-color: rgb(159, 222, 159);">
@@ -164,7 +162,9 @@ document.addEventListener("DOMContentLoaded", loadCards);
     <div id="cards" class="row">
       
     </div>
+ 
   <div class="row placeholders mb-3">
+    <h1 style="text-align: center;">CRMO</h1>
     <div class="col-6 col-sm-3 placeholder text-center">
         <img src="//placehold.it/200/dddddd/fff?text=1" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
         <h4>Responsive</h4>
@@ -188,18 +188,128 @@ document.addEventListener("DOMContentLoaded", loadCards);
   </div>
   
   </div>
-  
-  
- 
-  
-  </div>
-  {% endblock %}
-   
+   -->
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Move Cards with Open Popup (Mobile Support)</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .card {
+        width: 100px;
+        height: 50px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        margin: 10px;
+        cursor: move;
+        position: absolute;
+        touch-action: none; /* Disable default touch actions */
+    }
+    .popup {
+        width: 200px;
+        height: 100px;
+        background-color: #e0e0e0;
+        border: 1px solid #999;
+        position: fixed;
+        top: 50px;
+        left: 50px;
+        display: none;
+    }
+    .popup-icon {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
 
+<div class="card" id="card1">Card 1</div>
+<div class="card" id="card2">Card 2</div>
+<div class="card" id="card3">Card 3</div>
 
+<div class="popup-icon" id="popupIcon">&#x1F4AC;</div>
 
+<div class="popup" id="popup">
+    Popup Content
+</div>
 
-  
+<script>
+    const cards = document.querySelectorAll('.card');
+    const popupIcon = document.getElementById('popupIcon');
+    const popup = document.getElementById('popup');
+    let draggedCard = null;
+    let offsetX = 0;
+    let offsetY = 0;
 
+    // Add touch event listeners to each card for touch start and touch end
+    cards.forEach(card => {
+        card.addEventListener('touchstart', touchStart);
+        card.addEventListener('touchmove', touchMove);
+        card.addEventListener('touchend', touchEnd);
+    });
 
- -->
+    // Add click event listener to the popup icon to toggle popup visibility
+    popupIcon.addEventListener('click', togglePopup);
+
+    // Function to handle touch start event
+    function touchStart(event) {
+        draggedCard = this;
+        const rect = draggedCard.getBoundingClientRect();
+        offsetX = event.touches[0].clientX - rect.left;
+        offsetY = event.touches[0].clientY - rect.top;
+        event.preventDefault(); // Prevent default touch behavior
+    }
+
+    // Function to handle touch move event
+    function touchMove(event) {
+        if (!draggedCard) return;
+        const touch = event.touches[0];
+        draggedCard.style.left = touch.clientX - offsetX + 'px';
+        draggedCard.style.top = touch.clientY - offsetY + 'px';
+        event.preventDefault(); // Prevent default touch behavior
+    }
+
+    // Function to handle touch end event
+    function touchEnd() {
+        draggedCard = null;
+    }
+
+    // Function to toggle popup visibility
+    function togglePopup() {
+        if (popup.style.display === 'block') {
+            popup.style.display = 'none';
+        } else {
+            popup.style.display = 'block';
+        }
+    }
+
+    // Prevent default behavior when dragging over the popup
+    popup.addEventListener('dragover', (event) => {
+        event.preventDefault();
+    });
+
+    // Handle dropping cards onto the popup
+    popup.addEventListener('drop', (event) => {
+        // Get the ID of the card being dropped
+        const cardId = event.dataTransfer.getData('text/plain');
+        const draggedCard = document.getElementById(cardId);
+
+        // Append the card to the popup
+        popup.appendChild(draggedCard);
+
+        // Make sure the card's position is relative to the popup
+        draggedCard.style.position = 'static';
+
+        // Prevent default behavior
+        event.preventDefault();
+    });
+</script>
+
+</body>
+</html>

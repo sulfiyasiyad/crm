@@ -1,60 +1,27 @@
+{% extends 'v2admin.html' %}
+{% load static %}
+{% block content %}
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM Dashboard</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    /* Custom CSS */
-    body {
-      background-color: #f8f9fa;
-    }
-    .navbar {
-      background-color: #ffffff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .sidebar {
-      background-color: #ffffff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      height: 100vh;
-    }
-    .sidebar-heading {
-      padding: 1rem 0;
-      text-align: center;
-    }
-    .nav-link {
-      color: #000 !important;
-    }
-    .nav-link.active {
-      font-weight: bold;
-      color: #007bff !important;
-    }
-    .navbar-brand {
-      font-weight: bold;
-    }
-    .main-content {
-      background-color: #ffffff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-    .card {
-      margin-bottom: 20px;
-    }
-    .card {
+ <style>
+  .card {
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid black;
   padding: 10px;
+  min-width: 150px;
+  height: 100px; 
+  margin-left: 70px;
+  margin-top: 100px;
+
+      
+
+  
+
 }
 
 .popup {
   display: none;
   position: fixed;
-  top: 40%;
+  top: 37%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: 2px dashed #ccc;
@@ -65,100 +32,10 @@
 .archived {
   display: none; 
 }
-  </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">CRM Dashboard</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'view_Archeive' %}">Reports</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Settings</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
 
-  <div class="container-fluid">
-    <div class="row">
-      <nav class="col-md-2 col-lg-3 d-md-block sidebar">
-        <div class="sidebar-sticky">
-          <h5 class="sidebar-heading">Navigation</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="{% url 'dashboard' %}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'view_Archeive' %}">Archeive</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'add_card' %}">Leads</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Opportunities</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <main role="main" class="col-md-10 col-lg-9 ml-sm-auto col-xl-9 px-4">
-        <div class="main-content">
-          <h2 class="mb-4">Dashboard Overview</h2>
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Total Users</h5>
-                  <p class="card-text">500</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Total Contacts</h5>
-                  <p class="card-text">1000</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Total Opportunities</h5>
-                  <p class="card-text">50</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h1>Cards</h1>
-          <div class="container">
-
- 
-            <div id="popup" class="popup" ondrop="drop(event)" ondragover="allowDrop(event)">
-              <h2>Popup Folder</h2>
-            </div>
-           
-            <div id="cards" class="row">
-              
-            </div>
-          <!-- Add more cards or content here -->
-       
-        </div>
-      </main>
-    </div>
-  </div>
-  
-  <script>
-    let draggedCard = null;
+</style>
+<script>
+  let draggedCard = null;
 
 
 function drag(event) {
@@ -201,7 +78,6 @@ function archiveCard(cardId) {
 function loadCards() {
   const cardsContainer = document.getElementById("cards");
   const allCards = [
-    
     { id: "card1", text: "Card 1" },
     { id: "card2", text: "Card 2" },
     { id: "card3", text: "Card 3" },
@@ -230,14 +106,112 @@ function loadCards() {
 
 
 document.addEventListener("DOMContentLoaded", loadCards);
-  </script>
- 
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
 
 
  
+
+
+</script>
+<div class="col main pt-5 mt-5">
+  <h1 style="text-align:center" class="display-4 ">Dashboard</h1>  
+    <!-- <h1 class="display-4 d-none d-sm-block text black" style="text-align: center;">Dashboard</h1>  -->
+  <div class="row placeholders mb-3">
+      <div class="col-xl-3 col-sm-6 py-2">
+          <div class="card1 bg-success text-white h-100">
+              <div class="card-body" style="background-color: rgb(159, 222, 159);">
+                  <div class="rotate">
+                      <i class="fa fa-user fa-4x"></i>
+                  </div>
+                  <h6 class="text-uppercase">Tweets</h6>
+                  <h1 class="display-4">121</h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 py-2">
+          <div class="card1 text-white bg-danger h-100">
+              <div class="card-body " style="background-color: rgb(135, 164, 232);">
+                  <div class="rotate">
+                      <i class="fa fa-list fa-4x"></i>
+                  </div>
+                  <h6 class="text-uppercase">Tweets</h6>
+                  <h1 class="display-4">121</h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 py-2">
+          <div class="card1 text-white bg-info h-100">
+              <div class="card-body" style="background-color: rgb(226, 128, 117);">
+                  <div class="rotate">
+                      <i class="fa fa-twitter fa-4x"></i>
+                  </div>
+                  <h6 class="text-uppercase">Tweets</h6>
+                  <h1 class="display-4">122</h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 py-2">
+        <div class="card1 text-white bg-info h-100">
+            <div class="card-body " style="background-color: pink;">
+                <div class="rotate">
+                    <i class="fa fa-twitter fa-4x"></i>
+                </div>
+                <h6 class="text-uppercase">Tweets</h6>
+                <h1 class="display-4">124</h1>
+            </div>
+        </div>
+    </div> 
+  </div>
+  <div class="container">
+    <h1 style="text-align: center;">Cards</h1>
+
+ 
+    <div id="popup" class="popup" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Popup Folder</h2>
+    </div>
+   
+    <div id="cards" class="row">
+      
+    </div>
+  <h1 style="text-align: center;">CRMO</h1>
+  <div class="row placeholders" style="margin-bottom: 50px;">
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="{% static 'images/marketing.webp' %}" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>Marketing</h4>
+        <span class="text-muted">Device agnostic</span>  
+    </div>
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="{% static 'images/enable automation.png' %}" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>Support</h4>
+        <span class="text-muted">UI / UX oriented</span>  
+    </div>
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="{% static 'images/marketing.webp' %}" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>Sales</h4>
+        <span class="text-muted">Standards-based</span>  
+    </div>
+    <div class="col-6 col-sm-3 placeholder text-center">
+        <img src="{% static 'images/enable automation.png' %}" class="center-block img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <h4>Feedback</h4>
+        <span class="text-muted">CSS and JavaScript</span>  
+    </div>
+  </div>
+  
+  </div>
+  
+  
+  
+ 
+  
+  </div>
+ 
+  
+  {% endblock %}
+   
+
+
+
+
+  
+
+
+

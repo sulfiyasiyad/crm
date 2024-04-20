@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom CSS */
+    body {
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      height: 100vh;
+    }
+    .sidebar-heading {
+      padding: 1rem 0;
+      text-align: center;
+    }
+    .nav-link {
+      color: #000 !important;
+    }
+    .nav-link.active {
+      font-weight: bold;
+      color: #007bff !important;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .main-content {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .card {
+      margin-bottom: 20px;
+      width: 90px;
+    }
+    .card_main {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed #ccc;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.archived {
+  display: none; 
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">CRM Dashboard</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'view_Archeive' %}">Reports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Settings</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 col-lg-3 d-md-block sidebar">
+        <div class="sidebar-sticky">
+          <h5 class="sidebar-heading">Navigation</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_Archeive' %}">Archeive</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Leads</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Opportunities</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main role="main" class="col-md-10 col-lg-9 ml-sm-auto col-xl-9 px-4">
+        <div class="main-content">
+          <h2 class="mb-4">Archeived Overview</h2>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card_main">
+                <div class="card-body">
+                  <h5 class="card-title">Total Users</h5>
+                  <p class="card-text">500</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card_main">
+                <div class="card-body">
+                  <h5 class="card-title">Total Contacts</h5>
+                  <p class="card-text">1000</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card_main">
+                <div class="card-body">
+                  <h5 class="card-title">Total Opportunities</h5>
+                  <p class="card-text">50</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="main-content">
+            <div class="container">
+              <h2>Archived Cards</h2>
+              <ul id="archived-cards"></ul>
+              
+            </div>
+            </div>
+         
+          <!-- Add more cards or content here -->
+       
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+     // Function to display archived cards
+function displayArchivedCards() {
+  const archivedCardsContainer = document.getElementById("archived-cards");
+  const archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  archivedCards.forEach(cardText => {
+    // Create card element
+    const cardItem = document.createElement("div");
+    cardItem.classList.add("card");
+    // Create card text
+    const cardTextElement = document.createElement("p");
+    cardTextElement.textContent = cardText;
+    cardItem.appendChild(cardTextElement);
+    // Create unarchive button
+    const unarchiveButton = document.createElement("button");
+    unarchiveButton.textContent = "Unarchive";
+    unarchiveButton.addEventListener("click", function() {
+      unarchiveCard(cardText);
+      // Remove card from the DOM
+      cardItem.remove();
+    });
+    cardItem.appendChild(unarchiveButton);
+    archivedCardsContainer.appendChild(cardItem);
+  });
+}
+
+// Function to unarchive a card
+function unarchiveCard(cardText) {
+  let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  const index = archivedCards.indexOf(cardText);
+  if (index !== -1) {
+    archivedCards.splice(index, 1);
+    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+  }
+}
+
+// Call displayArchivedCards when the page is loaded
+document.addEventListener("DOMContentLoaded", displayArchivedCards);
+  </script>
+  
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+  
