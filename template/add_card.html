@@ -1,315 +1,157 @@
-
-
- <!-- <style>
-  .card {
-  margin-bottom: 10px;
-  border: 1px solid black;
-  padding: 10px;
-  min-width: 150px;
-  height: 100px; 
-  margin-left: 70px;
-      
-
-  
-
-}
-
-.popup {
-  display: none;
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px dashed #ccc;
-  padding: 20px;
-  background-color: #fff;
-}
-
-.archived {
-  display: none; 
-}
-
-</style>
-<script>
-  let draggedCard = null;
-
-
-function drag(event) {
-  draggedCard = event.target;
-  const popup = document.getElementById("popup");
-  popup.style.display = "block"; 
-}
-
-
-function allowDrop(event) {
-  event.preventDefault();
-}
-
-
-function drop(event) {
-  event.preventDefault();
-  const popup = document.getElementById("popup");
-  const cardsContainer = document.getElementById("cards");
-
-  
-  const archivedCard = draggedCard.cloneNode(true);
-  archivedCard.classList.add("archived");
- 
-  archiveCard(draggedCard.id);
-
-  draggedCard.parentNode.removeChild(draggedCard);
-
- 
-  popup.style.display = "none";
-}
-
-
-function archiveCard(cardId) {
-  let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-  archivedCards.push(cardId);
-  localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
-}
-
-
-function loadCards() {
-  const cardsContainer = document.getElementById("cards");
-  const allCards = [
-    { id: "card1", text: "Card 1" },
-    { id: "card2", text: "Card 2" },
-    { id: "card3", text: "Card 3" },
-    { id: "card4", text: "Card 4" },
-    { id: "card5", text: "Card 5" },
-    
-  ];
-
-  
-  const archivedCardIds = JSON.parse(localStorage.getItem("archivedCards")) || [];
-
-  
-  const nonArchivedCards = allCards.filter(card => !archivedCardIds.includes(card.id));
-
-  
-  nonArchivedCards.forEach(cardData => {
-    const card = document.createElement("div");
-    card.textContent = cardData.text;
-    card.classList.add("card");
-    card.setAttribute("id", cardData.id);
-    card.setAttribute("draggable", true);
-    card.setAttribute("ondragstart", "drag(event)");
-    cardsContainer.appendChild(card);
-  });
-}
-
-
-document.addEventListener("DOMContentLoaded", loadCards);
-</script>
-<div class="col main pt-5 mt-5">
-  <!-- <h1 class="display-4 d-none d-sm-block text black" style="text-align: center;">Welcome Admin</h1> -->
-  <!-- <div class="row placeholders mb-3">
-      <div class="col-xl-3 col-sm-6 py-2">
-          <div class="card1 bg-success text-white h-100">
-              <div class="card-body" style="background-color: rgb(159, 222, 159);">
-                  <div class="rotate">
-                      <i class="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6 class="text-uppercase">Tweets</h6>
-                  <h1 class="display-4">121</h1>
-              </div>
-          </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 py-2">
-          <div class="card1 text-white bg-danger h-100">
-              <div class="card-body " style="background-color: rgb(230, 140, 140);">
-                  <div class="rotate">
-                      <i class="fa fa-list fa-4x"></i>
-                  </div>
-                  <h6 class="text-uppercase">Tweets</h6>
-                  <h1 class="display-4">121</h1>
-              </div>
-          </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 py-2">
-          <div class="card1 text-white bg-info h-100">
-              <div class="card-body" style="background-color: rgb(236, 157, 148);">
-                  <div class="rotate">
-                      <i class="fa fa-twitter fa-4x"></i>
-                  </div>
-                  <h6 class="text-uppercase">Tweets</h6>
-                  <h1 class="display-4">122</h1>
-              </div>
-          </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 py-2">
-        <div class="card1 text-white bg-info h-100">
-            <div class="card-body " style="background-color: pink;">
-                <div class="rotate">
-                    <i class="fa fa-twitter fa-4x"></i>
-                </div>
-                <h6 class="text-uppercase">Tweets</h6>
-                <h1 class="display-4">124</h1>
-            </div>
-        </div>
-    </div> 
-  </div>
-  <div class="container">
-    <h1 style="text-align: center;">Cards</h1>
-
- 
-    <div id="popup" class="popup" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h2>Popup Folder</h2>
-    </div>
-   
-    <div id="cards" class="row">
-      
-    </div>
- 
-  <div class="row placeholders mb-3">
-    <h1 style="text-align: center;">CRMO</h1>
-    <div class="col-6 col-sm-3 placeholder text-center">
-        <img src="//placehold.it/200/dddddd/fff?text=1" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Responsive</h4>
-        <span class="text-muted">Device agnostic</span>
-    </div>
-    <div class="col-6 col-sm-3 placeholder text-center">
-        <img src="//placehold.it/200/e4e4e4/fff?text=2" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Frontend</h4>
-        <span class="text-muted">UI / UX oriented</span>
-    </div>
-    <div class="col-6 col-sm-3 placeholder text-center">
-        <img src="//placehold.it/200/d6d6d6/fff?text=3" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>HTML5</h4>
-        <span class="text-muted">Standards-based</span>
-    </div>
-    <div class="col-6 col-sm-3 placeholder text-center">
-        <img src="//placehold.it/200/e0e0e0/fff?text=4" class="center-block img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Framework</h4>
-        <span class="text-muted">CSS and JavaScript</span>
-    </div>
-  </div>
-  
-  </div>
-   -->
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Move Cards with Open Popup (Mobile Support)</title>
+<title>Dashboard</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-    }
-    .card {
-        width: 100px;
-        height: 50px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        margin: 10px;
-        cursor: move;
-        position: absolute;
-        touch-action: none; /* Disable default touch actions */
-    }
+  .card {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: grab;
+  }
+
+  .popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px dashed #ccc;
+    padding: 20px;
+    background-color: #fff;
+    z-index: 9999; /* Ensure popup is on top of other elements */
+  }
+
+  .archived {
+    display: none; 
+  }
+
+  @media (max-width: 768px) {
+    /* Adjust styles for mobile devices */
     .popup {
-        width: 200px;
-        height: 100px;
-        background-color: #e0e0e0;
-        border: 1px solid #999;
-        position: fixed;
-        top: 50px;
-        left: 50px;
-        display: none;
+      width: 80%; /* Set width to fit smaller screens */
+      max-width: 300px; /* Limit maximum width */
+      padding: 10px; /* Reduce padding for smaller screens */
     }
-    .popup-icon {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-    }
+  }
 </style>
 </head>
 <body>
-
-<div class="card" id="card1">Card 1</div>
-<div class="card" id="card2">Card 2</div>
-<div class="card" id="card3">Card 3</div>
-
-<div class="popup-icon" id="popupIcon">&#x1F4AC;</div>
-
-<div class="popup" id="popup">
-    Popup Content
+<div class="container">
+ 
+  <div id="popup" class="popup" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h2>Popup Folder</h2>
+  </div>
+ 
+  <div id="cards" class="row">
+    
+  </div>
 </div>
 
 <script>
-    const cards = document.querySelectorAll('.card');
-    const popupIcon = document.getElementById('popupIcon');
-    const popup = document.getElementById('popup');
-    let draggedCard = null;
-    let offsetX = 0;
-    let offsetY = 0;
+  let draggedCard = null;
+  let touchStartX, touchStartY;
 
-    // Add touch event listeners to each card for touch start and touch end
-    cards.forEach(card => {
-        card.addEventListener('touchstart', touchStart);
-        card.addEventListener('touchmove', touchMove);
-        card.addEventListener('touchend', touchEnd);
+  function dragStart(event) {
+    draggedCard = event.target;
+    const popup = document.getElementById("popup");
+    popup.style.display = "block";
+
+    if (event.type === "touchstart") {
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+    }
+
+    event.preventDefault();
+  }
+
+  function dragMove(event) {
+    if (draggedCard) {
+      if (event.type === "touchmove") {
+        const touchMoveX = event.touches[0].clientX;
+        const touchMoveY = event.touches[0].clientY;
+        const deltaX = touchMoveX - touchStartX;
+        const deltaY = touchMoveY - touchStartY;
+        draggedCard.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      }
+    }
+  }
+
+  function dragEnd(event) {
+    const popup = document.getElementById("popup");
+    const cardsContainer = document.getElementById("cards");
+
+    if (event.type === "touchend" || event.type === "touchcancel") {
+      draggedCard.style.transform = ""; // Reset transformation
+      draggedCard = null;
+      event.preventDefault(); // Prevent default touchend behavior
+    }
+
+    if (draggedCard) {
+      const archivedCard = draggedCard.cloneNode(true);
+      archivedCard.classList.add("archived");
+      archiveCard(draggedCard.id);
+      draggedCard.parentNode.removeChild(draggedCard);
+      cardsContainer.appendChild(archivedCard);
+      popup.style.display = "none";
+      draggedCard = null;
+    }
+  }
+
+  function allowDrop(event) {
+    event.preventDefault();
+  }
+
+  function drop(event) {
+    event.preventDefault();
+  }
+
+  function archiveCard(cardId) {
+    let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+    archivedCards.push(cardId);
+    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+  }
+
+  function loadCards() {
+    const cardsContainer = document.getElementById("cards");
+    const allCards = [
+      { id: "card1", text: "Card 1" },
+      { id: "card2", text: "Card 2" },
+      { id: "card3", text: "Card 3" },
+      { id: "card4", text: "Card 4" },
+      { id: "card5", text: "Card 5" },
+    ];
+
+    const archivedCardIds = JSON.parse(localStorage.getItem("archivedCards")) || [];
+
+    const nonArchivedCards = allCards.filter(card => !archivedCardIds.includes(card.id));
+
+    nonArchivedCards.forEach(cardData => {
+      const card = document.createElement("div");
+      card.textContent = cardData.text;
+      card.classList.add("card");
+      card.setAttribute("id", cardData.id);
+      card.setAttribute("draggable", true);
+      cardsContainer.appendChild(card);
+
+      // For mouse events
+      card.addEventListener("dragstart", dragStart);
+      card.addEventListener("dragend", dragEnd);
+
+      // For touch events
+      card.addEventListener("touchstart", dragStart);
+      card.addEventListener("touchmove", dragMove);
+      card.addEventListener("touchend", dragEnd);
+      card.addEventListener("touchcancel", dragEnd);
     });
+  }
 
-    // Add click event listener to the popup icon to toggle popup visibility
-    popupIcon.addEventListener('click', togglePopup);
+  document.addEventListener("DOMContentLoaded", loadCards);
 
-    // Function to handle touch start event
-    function touchStart(event) {
-        draggedCard = this;
-        const rect = draggedCard.getBoundingClientRect();
-        offsetX = event.touches[0].clientX - rect.left;
-        offsetY = event.touches[0].clientY - rect.top;
-        event.preventDefault(); // Prevent default touch behavior
-    }
-
-    // Function to handle touch move event
-    function touchMove(event) {
-        if (!draggedCard) return;
-        const touch = event.touches[0];
-        draggedCard.style.left = touch.clientX - offsetX + 'px';
-        draggedCard.style.top = touch.clientY - offsetY + 'px';
-        event.preventDefault(); // Prevent default touch behavior
-    }
-
-    // Function to handle touch end event
-    function touchEnd() {
-        draggedCard = null;
-    }
-
-    // Function to toggle popup visibility
-    function togglePopup() {
-        if (popup.style.display === 'block') {
-            popup.style.display = 'none';
-        } else {
-            popup.style.display = 'block';
-        }
-    }
-
-    // Prevent default behavior when dragging over the popup
-    popup.addEventListener('dragover', (event) => {
-        event.preventDefault();
-    });
-
-    // Handle dropping cards onto the popup
-    popup.addEventListener('drop', (event) => {
-        // Get the ID of the card being dropped
-        const cardId = event.dataTransfer.getData('text/plain');
-        const draggedCard = document.getElementById(cardId);
-
-        // Append the card to the popup
-        popup.appendChild(draggedCard);
-
-        // Make sure the card's position is relative to the popup
-        draggedCard.style.position = 'static';
-
-        // Prevent default behavior
-        event.preventDefault();
-    });
+  document.getElementById("popup").addEventListener("drop", drop);
+  document.getElementById("popup").addEventListener("dragover", allowDrop);
 </script>
-
 </body>
 </html>
