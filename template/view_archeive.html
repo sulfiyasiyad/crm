@@ -1,127 +1,76 @@
-{% extends 'v2admin.html' %}
-{% load static %}
-{% block content %}
-<style>
-  .dashboard-card {
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .card {
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  min-width: 150px;
-  height: 100px; 
-  margin-left: 70px;
-}
 
-.popup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px dashed #ccc;
-  padding: 20px;
-  background-color: #fff;
-}
-
-.archived {
-  display: none; /* Hide archived cards */
-}
-
-
-</style>
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-  <!-- Your main content here -->
-  <h1 style="text-align: center; margin-top: 50px;">Archeive Cards</h1>
-  
-  <div class="container">
-    <h2>Archived Cards</h2>
-    <div class="card-columns">
-      <ul id="archived-cards"></ul>
-
-      
-  
-    </div>
-  </div>
-  <div class="container" style="margin-bottom: 80px;">
-    <canvas id="myChart"></canvas>
-  </div>
-  
-  
-</main>
-
-
-
-<script>
-  // Chart.js script to generate graph
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [{
-        label: 'CRMO Data',
-        data: [12, 19, 3, 5, 2, 3, 15], // Example data, replace with your actual data
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archived Cards</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      .archived-card {
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
       }
-    }
-  });
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="mt-5">Archived Cards</h2>
+      <div id="archivedCards" class="row">
+        <!-- Archived Cards will be displayed here -->
+      </div>
+    </div>
+  
+    <script>
+      // Function to load archived cards
+      function loadArchivedCards() {
+        const archivedCardsContainer = document.getElementById("archivedCards");
+        const archivedCardIds = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  
+        const allCards = [
+          { id: "card1", text: "Card 1" },
+          { id: "card2", text: "Card 2" },
+          { id: "card3", text: "Card 3" },
+          { id: "card4", text: "Card 4" },
+          { id: "card5", text: "Card 5" }
+        ];
+  
+        // Filter out archived cards
+        const archivedCards = allCards.filter(card => archivedCardIds.includes(card.id));
+  
+        // Display archived cards
+        archivedCards.forEach(cardData => {
+          const card = document.createElement("div");
+          card.textContent = cardData.text;
+          card.classList.add("archived-card", "col-md-4");
+          card.setAttribute("id", cardData.id);
+          
+          const unarchiveButton = document.createElement("button");
+          unarchiveButton.textContent = "Unarchive";
+          unarchiveButton.classList.add("btn", "btn-primary", "mt-2");
+          unarchiveButton.addEventListener("click", () => unarchiveCard(cardData.id));
+          card.appendChild(unarchiveButton);
+          
+          archivedCardsContainer.appendChild(card);
+        });
+      }
+  
+      // Function to unarchive a card
+      function unarchiveCard(cardId) {
+        let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+        archivedCards = archivedCards.filter(id => id !== cardId);
+        localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+        location.reload(); // Reload the page to reflect changes
+      }
+  
+      document.addEventListener("DOMContentLoaded", loadArchivedCards);
+    </script>
+  </body>
+  </html>
+  
 
 
-
-   // Function to display archived cards
-function displayArchivedCards() {
-  const archivedCardsContainer = document.getElementById("archived-cards");
-  const archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-  archivedCards.forEach(cardText => {
-    // Create card element
-    const cardItem = document.createElement("div");
-    cardItem.classList.add("card");
-    // Create card text
-    const cardTextElement = document.createElement("p");
-    cardTextElement.textContent = cardText;
-    cardItem.appendChild(cardTextElement);
-    // Create unarchive button
-    const unarchiveButton = document.createElement("button");
-    unarchiveButton.textContent = "Unarchive";
-    unarchiveButton.addEventListener("click", function() {
-      unarchiveCard(cardText);
-      // Remove card from the DOM
-      cardItem.remove();
-    });
-    cardItem.appendChild(unarchiveButton);
-    archivedCardsContainer.appendChild(cardItem);
-  });
-}
-
-// Function to unarchive a card
-function unarchiveCard(cardText) {
-  let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-  const index = archivedCards.indexOf(cardText);
-  if (index !== -1) {
-    archivedCards.splice(index, 1);
-    localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
-  }
-}
-
-// Call displayArchivedCards when the page is loaded
-document.addEventListener("DOMContentLoaded", displayArchivedCards);
-
-</script>
-
-
-{% endblock %}

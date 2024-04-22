@@ -3,13 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drag Cards</title>
+<title>Drag and Drop Cards</title>
 <style>
+  .container {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
   .card {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     padding: 10px;
     cursor: grab;
+    transition: transform 0.2s ease;
   }
 
   .popup {
@@ -35,27 +43,41 @@
     <h2>Popup Folder</h2>
   </div>
  
-  <div id="cards" class="row">
-    
-  </div>
+  <div id="cards" class="row"></div>
 </div>
 
 <script>
   let draggedCard = null;
+  let offsetX, offsetY;
 
-  function drag(event) {
+  // Function to handle drag start
+  function dragStart(event) {
     draggedCard = event.target;
     const popup = document.getElementById("popup");
     popup.style.display = "block"; 
+
+    // Calculate the offset from the mouse pointer to the top-left corner of the card
+    offsetX = event.clientX - draggedCard.getBoundingClientRect().left;
+    offsetY = event.clientY - draggedCard.getBoundingClientRect().top;
+
+    event.dataTransfer.setData("text/plain", ""); // Necessary for Firefox
   }
 
+  // Function to handle drag end
+  function dragEnd(event) {
+    draggedCard = null;
+    const popup = document.getElementById("popup");
+    popup.style.display = "none"; 
+  }
+
+  // Function to allow drop
   function allowDrop(event) {
     event.preventDefault();
   }
 
+  // Function to handle drop
   function drop(event) {
     event.preventDefault();
-    const popup = document.getElementById("popup");
     const cardsContainer = document.getElementById("cards");
   
     const archivedCard = draggedCard.cloneNode(true);
@@ -66,16 +88,20 @@
     draggedCard.parentNode.removeChild(draggedCard);
   
     cardsContainer.appendChild(archivedCard);
-  
-    popup.style.display = "none";
+
+    // Close the popup after dropping
+    const popup = document.getElementById("popup");
+    popup.style.display = "none"; 
   }
 
+  // Function to archive card
   function archiveCard(cardId) {
     let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
     archivedCards.push(cardId);
     localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
   }
 
+  // Function to load cards
   function loadCards() {
     const cardsContainer = document.getElementById("cards");
     const allCards = [
@@ -95,25 +121,27 @@
       card.textContent = cardData.text;
       card.classList.add("card");
       card.setAttribute("id", cardData.id);
-      card.addEventListener("mousedown", mouseDown);
-      card.addEventListener("touchstart", touchStart);
       cardsContainer.appendChild(card);
-    });
-  }
 
-  function mouseDown(event) {
-    event.preventDefault();
-    drag(event);
-    window.addEventListener("mousemove", mouseMove);
-    window.addEventListener("mouseup", mouseUp);
+      // Add event listeners for mouse and touch events
+      card.addEventListener("mousedown", dragStart);
+      card.addEventListener("touchstart", touchStart);
+
+      // Archive the card after inserting it
+      archiveCard(cardData.id);
+    });
+
+    // Close the popup after loading cards
+    const popup = document.getElementById("popup");
+    popup.style.display = "none"; 
   }
 
   function mouseMove(event) {
     event.preventDefault();
     if (draggedCard) {
       draggedCard.style.position = "fixed";
-      draggedCard.style.left = (event.clientX - draggedCard.offsetWidth / 2) + "px";
-      draggedCard.style.top = (event.clientY - draggedCard.offsetHeight / 2) + "px";
+      draggedCard.style.left = (event.clientX - offsetX) + "px";
+      draggedCard.style.top = (event.clientY - offsetY) + "px";
     }
   }
 
@@ -129,32 +157,18 @@
     }
   }
 
-  function touchStart(event) {
-    event.preventDefault();
-    draggedCard = event.target;
-    const touch = event.touches[0];
-    const popup = document.getElementById("popup");
-    popup.style.display = "block"; 
-    draggedCard.style.position = "fixed";
-    draggedCard.style.left = (touch.clientX - draggedCard.offsetWidth / 2) + "px";
-    draggedCard.style.top = (touch.clientY - draggedCard.offsetHeight / 2) + "px";
-    window.addEventListener("touchmove", touchMove);
-    window.addEventListener("touchend", touchEnd);
-  }
-
   function touchMove(event) {
     event.preventDefault();
     if (draggedCard) {
       const touch = event.touches[0];
-      draggedCard.style.left = (touch.clientX - draggedCard.offsetWidth / 2) + "px";
-      draggedCard.style.top = (touch.clientY - draggedCard.offsetHeight / 2) + "px";
+      draggedCard.style.left = (touch.clientX - offsetX) + "px";
+      draggedCard.style.top = (touch.clientY - offsetY) + "px";
     }
   }
 
   function touchEnd(event) {
     event.preventDefault();
     if (draggedCard) {
-      const touch = event.changedTouches[0];
       drop(event);
       draggedCard.style.position = "";
       draggedCard.style.left = "";
@@ -164,35 +178,26 @@
     }
   }
 
+  function touchStart(event) {
+    event.preventDefault();
+    draggedCard = event.target;
+    const touch = event.touches[0];
+    const popup = document.getElementById("popup");
+    popup.style.display = "block"; 
+    offsetX = touch.clientX - draggedCard.getBoundingClientRect().left;
+    offsetY = touch.clientY - draggedCard.getBoundingClientRect().top;
+    draggedCard.style.position = "fixed";
+    draggedCard.style.left = (touch.clientX - offsetX) + "px";
+    draggedCard.style.top = (touch.clientY - offsetY) + "px";
+    window.addEventListener("touchmove", touchMove);
+    window.addEventListener("touchend", touchEnd);
+  }
+
   document.addEventListener("DOMContentLoaded", loadCards);
+  window.addEventListener("mousemove", mouseMove);
+  window.addEventListener("mouseup", mouseUp);
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
