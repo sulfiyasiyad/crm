@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archived Cards</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      .archived-card {
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="mt-5">Archived Cards</h2>
+      <div id="archivedCards" class="row">
+        <!-- Archived Cards will be displayed here -->
+      </div>
+    </div>
+  
+    <script>
+      // Function to load archived cards
+      function loadArchivedCards() {
+        const archivedCardsContainer = document.getElementById("archivedCards");
+        const archivedCardIds = JSON.parse(localStorage.getItem("archivedCards")) || [];
+  
+        const allCards = [
+          { id: "card1", text: "Card 1" },
+          { id: "card2", text: "Card 2" },
+          { id: "card3", text: "Card 3" },
+          { id: "card4", text: "Card 4" },
+          { id: "card5", text: "Card 5" }
+        ];
+  
+        // Filter out archived cards
+        const archivedCards = allCards.filter(card => archivedCardIds.includes(card.id));
+  
+        // Display archived cards
+        archivedCards.forEach(cardData => {
+          const card = document.createElement("div");
+          card.textContent = cardData.text;
+          card.classList.add("archived-card", "col-md-4");
+          card.setAttribute("id", cardData.id);
+          
+          const unarchiveButton = document.createElement("button");
+          unarchiveButton.textContent = "Unarchive";
+          unarchiveButton.classList.add("btn", "btn-primary", "mt-2");
+          unarchiveButton.addEventListener("click", () => unarchiveCard(cardData.id));
+          card.appendChild(unarchiveButton);
+          
+          archivedCardsContainer.appendChild(card);
+        });
+      }
+  
+      // Function to unarchive a card
+      function unarchiveCard(cardId) {
+        let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
+        archivedCards = archivedCards.filter(id => id !== cardId);
+        localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
+        location.reload(); // Reload the page to reflect changes
+      }
+  
+      document.addEventListener("DOMContentLoaded", loadArchivedCards);
+    </script>
+  </body>
+  </html>
+  
+
+

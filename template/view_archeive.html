@@ -1,76 +1,335 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archived Cards</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-      .archived-card {
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        padding: 10px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h2 class="mt-5">Archived Cards</h2>
-      <div id="archivedCards" class="row">
-        <!-- Archived Cards will be displayed here -->
-      </div>
-    </div>
-  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+   
+
     <script>
-      // Function to load archived cards
-      function loadArchivedCards() {
-        const archivedCardsContainer = document.getElementById("archivedCards");
-        const archivedCardIds = JSON.parse(localStorage.getItem("archivedCards")) || [];
-  
-        const allCards = [
-          { id: "card1", text: "Card 1" },
-          { id: "card2", text: "Card 2" },
-          { id: "card3", text: "Card 3" },
-          { id: "card4", text: "Card 4" },
-          { id: "card5", text: "Card 5" }
-        ];
-  
-        // Filter out archived cards
-        const archivedCards = allCards.filter(card => archivedCardIds.includes(card.id));
-  
-        // Display archived cards
-        archivedCards.forEach(cardData => {
-          const card = document.createElement("div");
-          card.textContent = cardData.text;
-          card.classList.add("archived-card", "col-md-4");
-          card.setAttribute("id", cardData.id);
-          
-          const unarchiveButton = document.createElement("button");
-          unarchiveButton.textContent = "Unarchive";
-          unarchiveButton.classList.add("btn", "btn-primary", "mt-2");
-          unarchiveButton.addEventListener("click", () => unarchiveCard(cardData.id));
-          card.appendChild(unarchiveButton);
-          
-          archivedCardsContainer.appendChild(card);
+
+        $(document).ready(function() {
+            
+            $('[data-toggle=offcanvas]').click(function() {
+            $('.row-offcanvas').toggleClass('active');
+            });
+            
         });
-      }
-  
-      // Function to unarchive a card
-      function unarchiveCard(cardId) {
-        let archivedCards = JSON.parse(localStorage.getItem("archivedCards")) || [];
-        archivedCards = archivedCards.filter(id => id !== cardId);
-        localStorage.setItem("archivedCards", JSON.stringify(archivedCards));
-        location.reload(); // Reload the page to reflect changes
-      }
-  
-      document.addEventListener("DOMContentLoaded", loadArchivedCards);
+
     </script>
-  </body>
-  </html>
+    <style>
+       body, html {
+        height:100%;
+        }
+
+        /*
+        * Off Canvas sidebar at medium breakpoint
+        * --------------------------------------------------
+        */
+        @media screen and (max-width: 992px) {
+
+        .row-offcanvas {
+            position: relative;
+            -webkit-transition: all 0.25s ease-out;
+            -moz-transition: all 0.25s ease-out;
+            transition: all 0.25s ease-out;
+        }
+
+        .row-offcanvas-left
+        .sidebar-offcanvas {
+            left: -33%;
+        }
+
+        .row-offcanvas-left.active {
+            left: 33%;
+            margin-left: -6px;
+        }
+
+        .sidebar-offcanvas {
+            position: absolute;
+            top: 0;
+            width: 33%;
+            height: 100%;
+        }
+        }
+
+        /*
+        * Off Canvas wider at sm breakpoint
+        * --------------------------------------------------
+        */
+        @media screen and (max-width: 34em) {
+        .row-offcanvas-left
+        .sidebar-offcanvas {
+            left: -45%;
+            
+        }
+
+        .row-offcanvas-left.active {
+            left: 45%;
+            margin-left: -6px;
+        }
+        
+        .sidebar-offcanvas {
+            width: 45%;
+            
+        }
+        }
+
+        .card {
+            overflow:hidden;
+        }
+
+        .card-body .rotate {
+            z-index: 8;
+            float: right;
+            height: 100%;
+        }
+
+        .card-body .rotate i {
+            color: rgba(20, 20, 20, 0.15);
+            position: absolute;
+            left: 0;
+            left: auto;
+            right: -10px;
+            bottom: 0;
+            display: block;
+            -webkit-transform: rotate(-44deg);
+            -moz-transform: rotate(-44deg);
+            -o-transform: rotate(-44deg);
+            -ms-transform: rotate(-44deg);
+            transform: rotate(-44deg);
+        }
+
+        /* footer */
+
+        .footer {
+    background-color: #b7acac;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  body{
+    background-color: salmon;
+  }
   
+       
+   
+
+        
 
 
+    </style>
+
+</head>
+<body>
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark  mb-3" style="background-color: rgb(170, 196, 231);">
+    <div class="flex-row d-flex">
+        <button type="button" class="navbar-toggler mr-2 " data-toggle="offcanvas" title="Toggle responsive left sidebar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#" title="Free Bootstrap 4 Admin Template">CRM Dashboard</a>
+        <img src="" style="width: 30px;"  ></a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <!-- <a class="nav-link" href="#">Home <span class="sr-only"></span></a> -->
+            </li>
+
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="//www.codeply.com">Link</a>
+            </li> -->
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#myAlert" data-toggle="collapse"></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="" data-target="#myModal" data-toggle="modal"></a>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container-fluid" id="main">
+    <div class="row row-offcanvas row-offcanvas-left">
+        <div class="col-md-3 col-lg-2  sidebar-offcanvas  pl-0" id="sidebar" role="navigation" style=" background-color: rgb(170, 196, 231); height: 720px;" >
+            <ul class="nav flex-column sticky-top pl-0 pt-5 mt-3">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}" style="color: white;">Home</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}" style="color: white;">Dashoard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_Archeive' %}" style="color: white;"> View_Archeive</a></li>
+                
+                
+                <li class="nav-item"><a class="nav-link" href="{% url 'add_card' %}" style="color: white;">Category</a></li>
+               
+
+                
+                
+                
+                <li class="nav-item"><a class="nav-link" href="" style="color: white;">Logout</a></li>
+
+
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#submenu3" data-toggle="collapse" data-target="#submenu3">▾</a>
+                    <ul class="list-unstyled flex-column pl-3 collapse" id="submenu3" aria-expanded="false">
+                       <li class="nav-item"><a class="nav-link" href="">Add Patient</a></li>
+                       <li class="nav-item"><a class="nav-link" href="">view Patient</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#submenu4" data-toggle="collapse" data-target="#submenu4">Appointment▾</a>
+                    <ul class="list-unstyled flex-column pl-3 collapse" id="submenu4" aria-expanded="false">
+                       <li class="nav-item"><a class="nav-link" href="">Add Appointment</a></li>
+                       <li class="nav-item"><a class="nav-link" href="">view Appointment</a></li>
+                    </ul>
+                </li> -->
+
+                <!-- <li class="nav-item"><a class="nav-link" href="#">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Export</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Snippets</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Flexbox</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Layouts</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Templates</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Themes</a></li> -->
+            </ul>
+        </div>
+        <!--/col-->
+       
+      
+
+
+       
+      
+
+
+   
+    
+
+
+{% block content %}
+{% endblock %}
+<div class="container">
+  <div style="margin-top: 100px;" class="container">
+    <a hidden href="" id="cardsLink">cards</a>
+
+    <h1 class="text-center">Archives</h1>
+    <div id="savedCardContainer" class="row"></div>
+</div>
+</div>
+<script>
+   function handleCardsLinkClick(event) {
+        event.preventDefault();
+    }
+
+    document.getElementById("cardsLink").addEventListener("click", handleCardsLinkClick);
+
+    var savedHTMLArray = JSON.parse(sessionStorage.getItem("draggedHTMLArray"));
+    var savedCardContainer = document.getElementById("savedCardContainer");
+
+    
+    if (savedHTMLArray && savedHTMLArray.length > 0) {
+        savedHTMLArray.forEach(function(savedHTML) {
+            var tempContainer = document.createElement('div');
+            tempContainer.innerHTML = savedHTML;
+            var savedCard = tempContainer.firstChild;
+
+            var cardContainer = document.createElement('div');
+            cardContainer.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
+
+            
+            var card = document.createElement('div');
+            card.className = 'card h-100'; 
+            card.innerHTML = savedCard.innerHTML;
+
+            var cardBody = document.createElement('div');
+            cardBody.className = 'card-body d-flex flex-column'; 
+            cardBody.style.height = '100%'; 
+
+        
+            var undoButton = document.createElement('button');
+            undoButton.className = 'btn btn-primary mt-auto'; 
+            undoButton.innerHTML = 'Unarchive';
+
+           
+            undoButton.addEventListener('click', function(event) {
+                
+                cardContainer.parentNode.removeChild(cardContainer);
+                
+                var index = savedHTMLArray.indexOf(savedHTML);
+                if (index > -1) {
+                    savedHTMLArray.splice(index, 1);
+                    sessionStorage.setItem("draggedHTMLArray", JSON.stringify(savedHTMLArray));
+                }
+                
+            
+            });
+
+            
+            cardBody.appendChild(undoButton);
+
+            
+            card.appendChild(cardBody);
+
+            
+            cardContainer.appendChild(card);
+
+            
+            savedCardContainer.appendChild(cardContainer);
+        });
+    } else {
+        
+        savedCardContainer.innerHTML = "<div class='col text-center'>No archived reviews available.</div>";
+    }
+</script>
+
+
+
+
+
+<div class="content">
+  <!-- Your content goes here -->
+  
+</div>
+
+<div class="footer">
+  <p>copyright @crm</p>
+</div>
+
+
+   
+
+</body>
+</html>
