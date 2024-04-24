@@ -131,9 +131,7 @@
     bottom: 0;
     width: 100%;
   }
-  body{
-    background-color: salmon;
-  }
+ 
   
        
    
@@ -153,9 +151,7 @@
         <a class="navbar-brand" href="#" title="Free Bootstrap 4 Admin Template">CRM Dashboard</a>
         <img src="" style="width: 30px;"  ></a>
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    
     <div class="navbar-collapse collapse" id="collapsingNavbar">
         <ul class="navbar-nav">
             <li class="nav-item active">
@@ -184,15 +180,15 @@
 
 <div class="container-fluid" id="main">
     <div class="row row-offcanvas row-offcanvas-left">
-        <div class="col-md-3 col-lg-2  sidebar-offcanvas  pl-0" id="sidebar" role="navigation" style=" background-color: rgb(170, 196, 231); height: 720px;" >
+        <div class="col-md-3 col-lg-2  sidebar-offcanvas  pl-0" id="sidebar" role="navigation" style=" background-color: rgb(170, 196, 231); height: 730px;" >
             <ul class="nav flex-column sticky-top pl-0 pt-5 mt-3">
                 <li class="nav-item"><a class="nav-link" href="{% url 'home' %}" style="color: white;">Home</a></li>
 
                 <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}" style="color: white;">Dashoard</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'view_Archeive' %}" style="color: white;"> View_Archeive</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_Archeive' %}" style="color: white;"> View_Archive</a></li>
                 
                 
-                <li class="nav-item"><a class="nav-link" href="{% url 'add_card' %}" style="color: white;">Category</a></li>
+                
                
 
                 
@@ -241,13 +237,17 @@
 
 {% block content %}
 {% endblock %}
-<div class="container">
-  <div style="margin-top: 100px;" class="container">
-    <a hidden href="" id="cardsLink">cards</a>
+<div class="col main pt-5 mt-5">
+  
+    <div style="margin-top: 80px; background-color: skyblue; margin-bottom: 20%;" class="container">
+        <h1 style="text-align:center">Archive</h1>
+        <a hidden href="" id="cardsLink">cards</a>
+          <div id="savedCardContainer" class="row" style="padding: 4px;"></div>
+        
+    </div>
 
-    <h1 class="text-center">Archives</h1>
-    <div id="savedCardContainer" class="row"></div>
-</div>
+    
+
 </div>
 <script>
    function handleCardsLinkClick(event) {
@@ -333,3 +333,7 @@
 
 </body>
 </html>
+
+
+
+
